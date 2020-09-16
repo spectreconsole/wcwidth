@@ -13,7 +13,7 @@ namespace Wcwidth.Tests
             var length = "💩".Select(c => Wcwidth.GetWidth(c)).Sum();
 
             // Then
-            length.ShouldBe(length);
+            length.ShouldBe(2);
         }
 
         [Fact]
