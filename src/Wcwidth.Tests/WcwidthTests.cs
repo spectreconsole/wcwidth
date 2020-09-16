@@ -19,9 +19,6 @@ namespace Wcwidth.Tests
         [Fact]
         public void Test_Hello_Japanese()
         {
-            char c2 = 'コ';
-            var foo = Wcwidth.GetWidth(c2);
-
             // Given
             const string phrase = "コンニチハ, セカイ!";
             var expected = new[] { 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 1 };
