@@ -1,5 +1,3 @@
-using System;
-using Generator.Commands;
 using Spectre.Cli;
 
 namespace Generator
@@ -8,7 +6,12 @@ namespace Generator
     {
         public static int Main(string[] args)
         {
-            var app = new CommandApp<TableGeneratorCommand>();
+            var app = new CommandApp();
+            app.Configure(config =>
+            {
+                config.AddCommand<TableGeneratorCommand>("tables");
+            });
+
             return app.Run(args);
         }
     }

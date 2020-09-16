@@ -1,16 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
 using Spectre.Cli;
 
-namespace Generator.Commands
+namespace Generator
 {
     public sealed class TableGeneratorSettings : CommandSettings
     {
         [CommandArgument(0, "<OUTPUT>")]
+        [Description("The output path.")]
         public string Output { get; set; }
 
-        [CommandOption("-d|--data <PATH>")]
-        public string Data { get; set; }
+        [CommandOption("-i|--input <PATH>")]
+        [Description("The input path where Unicode data is downloaded to.")]
+        public string Input { get; set; }
     }
 }

@@ -1,10 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Generator
 {
-    public static class EnumerableExtensions
+    public static class Extensions
     {
+        public static string GetGroupValue(this Match match, string group, string defaultValue = null)
+        {
+            return match.Groups[group].Success
+                ? match.Groups[group].Value
+                : defaultValue;
+        }
+
         public static IEnumerable<(int Index, T Item)> Enumerate<T>(this IEnumerable<T> source)
         {
             if (source is null)

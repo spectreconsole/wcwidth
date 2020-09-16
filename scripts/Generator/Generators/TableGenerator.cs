@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Generator.Models;
-using Generator.Templating;
-using Generator.Utilities;
 using Scriban;
 using Scriban.Runtime;
 using Spectre.Console;
@@ -20,21 +18,23 @@ namespace Generator
         protected abstract string DataFilename { get; }
         protected virtual string Template { get; } = "Templates/Table.template";
 
-        public async Task<string> Build(DirectoryPath data, IEnumerable<string> versions)
+        public async Task<string> Build(DirectoryPath path, IEnumerable<string> versions)
         {
             // Compile the template
             var template = ScribanTemplate.Parse(File.ReadAllText(Template));
 
-            // Get data
-            var model = new ScriptObject();
-            model["data"] = await GetData(data, versions, Filter);
-            model["name"] = ClassName;
+            // Get all data
+            var data = await GetAllData(path, versions, Filter);
 
-            // Prepare context
+            // Prepare template context
             var context = new TemplateContext();
-            context.PushGlobal(model);
+            context.LoopLimit = int.MaxValue;
             context.PushGlobal(new ScribanHelpers());
-            context.LoopLimit = 100000;
+            context.PushGlobal(new ScriptObject
+            {
+                ["data"] = data,
+                ["name"] = ClassName
+            });
 
             // Render template
             return template.Render(context);
@@ -43,22 +43,35 @@ namespace Generator
         protected abstract string GetUrl(string version);
         protected abstract bool Filter(string category);
 
-        private async Task<IEnumerable<UnicodeDataTable>> GetData(
+        private async Task<IEnumerable<UnicodeData>> GetAllData(
             DirectoryPath data,
             IEnumerable<string> versions,
             Func<string, bool> predicate)
         {
-            var result = new List<UnicodeDataTable>();
+            var result = new List<UnicodeData>();
             foreach (var version in versions)
             {
-                var url = GetUrl(version);
-                var filename = data.CombineWithFilePath($"{DataFilename}_{version}.txt");
-
-                using var stream = await UnicodeDataRetriever.GetData(filename, url);
-                result.Add(UnicodeDataParser.Parse(url, version, stream, predicate));
+                using var stream = await GetDataStream(data, version);
+                result.Add(UnicodeDataParser.Parse(version, stream, predicate));
             }
 
             return result;
+        }
+
+        private async Task<Stream> GetDataStream(DirectoryPath data, string version)
+        {
+            var url = GetUrl(version);
+            var filename = data.CombineWithFilePath($"{DataFilename}_{version}.txt");
+
+            if (!File.Exists(filename.FullPath))
+            {
+                AnsiConsole.MarkupLine($"🌍 Downloading [yellow]{url}[/]...");
+                using var client = new HttpClient();
+                var content = await client.GetStringAsync(url);
+                await File.WriteAllTextAsync(filename.FullPath, content);
+            }
+
+            return File.OpenRead(filename.FullPath);
         }
     }
 }

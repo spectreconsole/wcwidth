@@ -15,7 +15,7 @@ if(!(Test-Path $Data -PathType Container)) {
 
 # Generate the files
 Push-Location Generator
-&dotnet run -- "$Output" --data "$Data"
+&dotnet run -- tables "$Output" --input "$Data"
 if(!$?) { 
     Pop-Location
     Throw "An error occured when generating code."

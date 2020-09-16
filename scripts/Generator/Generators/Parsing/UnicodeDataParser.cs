@@ -4,9 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Generator.Models;
 
-namespace Generator.Utilities
+namespace Generator
 {
     public static class UnicodeDataParser
     {
@@ -17,14 +16,8 @@ namespace Generator.Utilities
             _regex = new Regex("^(?<start>[0-9A-F]{4,6})(..(?<end>[0-9A-F]{4,6})?)?\\s*;(?<property>[A-Za-z ]*)#(?<comment>.*$)");
         }
 
-        public static UnicodeDataTable Parse(string source, string version, Stream stream,
-            Func<string, bool> predicate)
+        public static UnicodeData Parse(string version, Stream stream, Func<string, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
             if (version is null)
             {
                 throw new ArgumentNullException(nameof(version));
@@ -62,7 +55,7 @@ namespace Generator.Utilities
                 }
             }
 
-            return UnicodeDataTableBuilder.Build(source, version, result);
+            return BuildTable(version, result);
         }
 
         private static IEnumerable<int> ParseLine(string line, Func<string, bool> predicate)
@@ -96,6 +89,46 @@ namespace Generator.Utilities
             return (
                 int.Parse(start, NumberStyles.HexNumber),
                 int.Parse(end, NumberStyles.HexNumber));
+        }
+
+        public static UnicodeData BuildTable(
+            string version,
+            IEnumerable<int> values)
+        {
+            var ranges = CollapseRanges(values);
+
+            return new UnicodeData
+            {
+                Version = version,
+                Ranges = ranges.OrderBy(x => x.Start).ToList()
+            };
+        }
+
+        private static Deque<(int Start, int End)> CollapseRanges(IEnumerable<int> values)
+        {
+            var queue = new Deque<(int, int)>();
+
+            foreach (var (index, value) in values.Enumerate())
+            {
+                if (index == 0)
+                {
+                    queue.Append((value, value));
+                    continue;
+                }
+
+                var (start, end) = queue.Pop();
+                if (end == value - 1)
+                {
+                    queue.Append((start, value));
+                }
+                else
+                {
+                    queue.Append((start, end));
+                    queue.Append((value, value));
+                }
+            }
+
+            return queue;
         }
     }
 }

@@ -10,8 +10,9 @@ using Spectre.Console;
 using Spectre.IO;
 using Wcwidth;
 
-namespace Generator.Commands
+namespace Generator
 {
+    [Description("Generates Unicode tables")]
     public sealed class TableGeneratorCommand : AsyncCommand<TableGeneratorSettings>
     {
         private readonly IFileSystem _fileSystem;
@@ -37,8 +38,8 @@ namespace Generator.Commands
             }
 
             // Get the data path
-            var data = settings.Data != null
-                ? new DirectoryPath(settings.Data)
+            var data = settings.Input != null
+                ? new DirectoryPath(settings.Input)
                 : output;
 
             // Get all versions
