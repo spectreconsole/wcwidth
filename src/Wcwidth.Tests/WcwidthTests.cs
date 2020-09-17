@@ -10,7 +10,7 @@ namespace Wcwidth.Tests
         public void Test_Favorite_Emoji()
         {
             // Given
-            var length = "💩".Select(c => Wcwidth.GetWidth(c)).Sum();
+            var length = "💩".Select(c => UnicodeCalculator.GetWidth(c)).Sum();
 
             // Then
             length.ShouldBe(2);
@@ -24,7 +24,7 @@ namespace Wcwidth.Tests
             var expected = new[] { 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 1 };
 
             // When
-            var length = phrase.Select(c => Wcwidth.GetWidth(c));
+            var length = phrase.Select(c => UnicodeCalculator.GetWidth(c));
 
             // Then
             length.ShouldBe(expected);
@@ -38,7 +38,7 @@ namespace Wcwidth.Tests
             var expected = new[] { 1, 1, 1, 0, 1, 1, 1 };
 
             // When
-            var length = phrase.Select(c => Wcwidth.GetWidth(c));
+            var length = phrase.Select(c => UnicodeCalculator.GetWidth(c));
 
             // Then
             length.ShouldBe(expected);
@@ -52,7 +52,7 @@ namespace Wcwidth.Tests
             var expected = new[] { -1, 1, 1, 1 };
 
             // When
-            var length = phrase.Select(c => Wcwidth.GetWidth(c));
+            var length = phrase.Select(c => UnicodeCalculator.GetWidth(c));
 
             // Then
             length.ShouldBe(expected);
@@ -66,7 +66,7 @@ namespace Wcwidth.Tests
             var expected = new[] { 1, 1, 0, 1, 1 };
 
             // When
-            var length = phrase.Select(c => Wcwidth.GetWidth(c));
+            var length = phrase.Select(c => UnicodeCalculator.GetWidth(c));
 
             // Then
             length.ShouldBe(expected);
@@ -80,7 +80,7 @@ namespace Wcwidth.Tests
             var expected = new[] { 1, 1, 1, 1, 0 };
 
             // When
-            var length = phrase.Select(c => Wcwidth.GetWidth(c));
+            var length = phrase.Select(c => UnicodeCalculator.GetWidth(c));
 
             // Then
             length.ShouldBe(expected);
@@ -94,7 +94,7 @@ namespace Wcwidth.Tests
             var expected = new[] { 1, 0 };
 
             // When
-            var length = phrase.Select(c => Wcwidth.GetWidth(c));
+            var length = phrase.Select(c => UnicodeCalculator.GetWidth(c));
 
             // Then
             length.ShouldBe(expected);
@@ -108,7 +108,7 @@ namespace Wcwidth.Tests
             var expected = new[] { 1, 1, 1, 1 };
 
             // When
-            var length = phrase.Select(c => Wcwidth.GetWidth(c));
+            var length = phrase.Select(c => UnicodeCalculator.GetWidth(c));
 
             // Then
             length.ShouldBe(expected);

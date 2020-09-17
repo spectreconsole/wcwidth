@@ -12,7 +12,7 @@ written by Jeff Quast, which originally was written by Markus Kuhn.
 using Wcwidth;
 
 // Get the width
-var width = Wcwidth.GetWidth('コ');
+var width = UnicodeCalculator.GetWidth('コ');
 
 // It should be 2 cells wide
 Debug.Assert(width == 2);

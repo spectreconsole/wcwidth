@@ -46,18 +46,15 @@ namespace Wcwidth
     /// <summary>
     /// A utility for calculating the width of Unicode characters.
     /// </summary>
-    public static class Wcwidth
+    public static class UnicodeCalculator
     {
-        /// <summary>
-        /// Gets the latest unicode version.
-        /// </summary>
-        public static Unicode Latest { get; } = Unicode.Version_13_0_0;
+        private const Unicode Latest = Unicode.Version_13_0_0;
 
         // NOTE: created by hand, there isn't anything identifiable other than
         // general Cf category code to identify these, and some characters in Cf
         // category code are of non-zero width.
         // Also includes some Cc, Mn, Zl, and Zp characters
-        private static readonly HashSet<uint> ZeroWidthCf = new HashSet<uint>
+        private static readonly HashSet<uint> _zeroWidthCf = new HashSet<uint>
         {
             0,       // Null (Cc)
             0x034F,  // Combining grapheme joiner (Mn)
@@ -92,7 +89,7 @@ namespace Wcwidth
             // NOTE: created by hand, there isn't anything identifiable other than
             // general Cf category code to identify these, and some characters in Cf
             // category code are of non-zero width.
-            if (ZeroWidthCf.Contains(value))
+            if (_zeroWidthCf.Contains(value))
             {
                 return 0;
             }
@@ -104,43 +101,15 @@ namespace Wcwidth
             }
 
             // Combining characters with zero width?
-            if (BinarySearch(value, ZeroTable.GetTable(version.Value)) != 0)
+            var zeroTable = ZeroTable.GetTable(version.Value);
+            if (zeroTable.Exist(value))
             {
                 return 0;
             }
 
-            return 1 + BinarySearch(value, WideTable.GetTable(version.Value));
-        }
-
-        private static int BinarySearch(uint rune, uint[,] table)
-        {
-            var min = 0;
-            var max = table.GetUpperBound(0);
-            int mid;
-
-            if (rune < table[0, 0] || rune > table[max, 1])
-            {
-                return 0;
-            }
-
-            while (max >= min)
-            {
-                mid = (min + max) / 2;
-                if (rune > table[mid, 1])
-                {
-                    min = mid + 1;
-                }
-                else if (rune < table[mid, 0])
-                {
-                    max = mid - 1;
-                }
-                else
-                {
-                    return 1;
-                }
-            }
-
-            return 0;
+            // Wide character?
+            var wideTable = WideTable.GetTable(version.Value);
+            return wideTable.Exist(value) ? 2 : 1;
         }
     }
 }
