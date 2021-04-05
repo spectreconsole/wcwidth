@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup Label="Settings">
     <Deterministic>true</Deterministic>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>embedded</DebugType>
     <MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
@@ -14,12 +14,12 @@
 
   <PropertyGroup Label="Package Information">
     <Description>A .NET library that calculates the width of Unicode characters.</Description>
-    <Authors>Patrik Svensson</Authors>
+    <Authors>Patrik Svensson, Phil Scott</Authors>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/patriksvensson/wcwidth</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/patriksvensson/wcwidth</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/spectreconsole/wcwidth</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/spectreconsole/wcwidth</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>https://github.com/patriksvensson/wcwidth/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/spectreconsole/wcwidth/releases</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Label="Source Link">
@@ -29,16 +29,16 @@
   </PropertyGroup>
   
   <ItemGroup Label="Package References">
-    <PackageReference Include="MinVer" PrivateAssets="All" Version="2.3.0" />
+    <PackageReference Include="MinVer" PrivateAssets="All" Version="2.5.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" Version="1.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.Analyzers" Version="2.3.0">
+    <PackageReference Include="Roslynator.Analyzers" Version="3.1.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>

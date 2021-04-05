@@ -20,6 +20,16 @@ namespace Generator
 
         public async Task<string> Build(DirectoryPath path, IEnumerable<string> versions)
         {
+            if (path is null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
+            if (versions is null)
+            {
+                throw new ArgumentNullException(nameof(versions));
+            }
+
             // Compile the template
             var template = ScribanTemplate.Parse(File.ReadAllText(Template));
 
@@ -33,14 +43,14 @@ namespace Generator
             context.PushGlobal(new ScriptObject
             {
                 ["data"] = data,
-                ["name"] = ClassName
+                ["name"] = ClassName,
             });
 
             // Render template
             return template.Render(context);
         }
 
-        protected abstract string GetUrl(string version);
+        protected abstract Uri GetUrl(string version);
         protected abstract bool Filter(string category);
 
         private async Task<IEnumerable<UnicodeData>> GetAllData(
@@ -51,8 +61,10 @@ namespace Generator
             var result = new List<UnicodeData>();
             foreach (var version in versions)
             {
-                using var stream = await GetDataStream(data, version);
-                result.Add(UnicodeDataParser.Parse(version, stream, predicate));
+                using (var stream = await GetDataStream(data, version))
+                {
+                    result.Add(UnicodeDataParser.Parse(version, stream, predicate));
+                }
             }
 
             return result;

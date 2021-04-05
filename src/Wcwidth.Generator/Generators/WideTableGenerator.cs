@@ -7,9 +7,9 @@ namespace Generator
         public override string ClassName => "WideTable";
         protected override string DataFilename => "EastAsianWidth";
 
-        protected override string GetUrl(string version)
+        protected override Uri GetUrl(string version)
         {
-            return $"http://www.unicode.org/Public/{version}/ucd/EastAsianWidth.txt";
+            return new Uri($"http://www.unicode.org/Public/{version}/ucd/EastAsianWidth.txt");
         }
 
         protected override bool Filter(string category)

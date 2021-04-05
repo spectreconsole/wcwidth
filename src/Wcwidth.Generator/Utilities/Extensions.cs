@@ -8,6 +8,11 @@ namespace Generator
     {
         public static string GetGroupValue(this Match match, string group, string defaultValue = null)
         {
+            if (match is null)
+            {
+                throw new ArgumentNullException(nameof(match));
+            }
+
             return match.Groups[group].Success
                 ? match.Groups[group].Value
                 : defaultValue;
@@ -22,7 +27,6 @@ namespace Generator
 
             return Enumerate(source.GetEnumerator());
         }
-
 
         public static IEnumerable<(int Index, T Item)> Enumerate<T>(this IEnumerator<T> source)
         {

@@ -1,3 +1,4 @@
+using System;
 using Scriban.Runtime;
 
 namespace Generator
@@ -16,7 +17,12 @@ namespace Generator
 
         public static string StringVer(string version)
         {
-            return version.Replace(".", "_");
+            if (version is null)
+            {
+                return string.Empty;
+            }
+
+            return version.Replace(".", "_", StringComparison.Ordinal);
         }
 
         public static string HexPad(int value, int pad)

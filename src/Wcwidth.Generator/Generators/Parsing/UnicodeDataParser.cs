@@ -28,6 +28,11 @@ namespace Generator
                 throw new ArgumentNullException(nameof(stream));
             }
 
+            if (predicate is null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
             var result = new List<int>();
 
             using var reader = new StreamReader(stream);
@@ -43,6 +48,7 @@ namespace Generator
                 {
                     continue;
                 }
+
                 if (string.IsNullOrWhiteSpace(line))
                 {
                     continue;
@@ -76,7 +82,7 @@ namespace Generator
             return null;
         }
 
-        private static (int, int) GetStartAndEnd(Match match)
+        private static (int Start, int End) GetStartAndEnd(Match match)
         {
             var start = match.GetGroupValue("start")?.Trim();
             if (start == null)
@@ -100,7 +106,7 @@ namespace Generator
             return new UnicodeData
             {
                 Version = version,
-                Ranges = ranges.OrderBy(x => x.Start).ToList()
+                Ranges = ranges.OrderBy(x => x.Start).ToList(),
             };
         }
 

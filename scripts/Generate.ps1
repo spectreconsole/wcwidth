@@ -2,8 +2,8 @@
 # Script that generates known colors and lookup tables.
 ##########################################################
 
-$Output = Join-Path $PSScriptRoot "Output"
-$Data = Join-Path $PSScriptRoot "Data"
+$Output = Join-Path $PSScriptRoot ".output"
+$Data = Join-Path $PSScriptRoot ".data"
 $Source = Join-Path $PSScriptRoot "/../src/Wcwidth/Tables"
 
 if(!(Test-Path $Output -PathType Container)) {
@@ -14,7 +14,7 @@ if(!(Test-Path $Data -PathType Container)) {
 }
 
 # Generate the files
-Push-Location Generator
+Push-Location (Join-Path $PSScriptRoot "../src/Wcwidth.Generator")
 &dotnet run -- tables "$Output" --input "$Data"
 if(!$?) { 
     Pop-Location

@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using Spectre.Cli;
+using Spectre.Console.Cli;
 
 namespace Generator
 {

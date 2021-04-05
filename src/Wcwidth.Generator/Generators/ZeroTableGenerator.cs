@@ -7,9 +7,9 @@ namespace Generator
         public override string ClassName => "ZeroTable";
         protected override string DataFilename => "DerivedGeneralCategory";
 
-        protected override string GetUrl(string version)
+        protected override Uri GetUrl(string version)
         {
-            return $"http://www.unicode.org/Public/{version}/ucd/extracted/DerivedGeneralCategory.txt";
+            return new Uri($"http://www.unicode.org/Public/{version}/ucd/extracted/DerivedGeneralCategory.txt");
         }
 
         protected override bool Filter(string category)

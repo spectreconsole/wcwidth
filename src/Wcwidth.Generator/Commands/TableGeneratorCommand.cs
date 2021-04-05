@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Spectre.Cli;
+using Spectre.Console.Cli;
 using Spectre.Console;
 using Spectre.IO;
 using Wcwidth;
@@ -30,6 +30,11 @@ namespace Generator
 
         public override async Task<int> ExecuteAsync(CommandContext context, TableGeneratorSettings settings)
         {
+            if (settings is null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+
             // Get the output path
             var output = new DirectoryPath(settings.Output);
             if (!_fileSystem.Directory.Exists(settings.Output))
@@ -43,24 +48,24 @@ namespace Generator
                 : output;
 
             // Get all versions
-            var versions = GetVersions();
+            var versions = GetUnicodeVersions();
 
             foreach (var generator in _generators)
             {
                 // Generate the source
-                AnsiConsole.MarkupLine("⏳ Generating [yellow]{0}[/]...", generator.ClassName);
+                AnsiConsole.MarkupLine($"⏳ Generating [yellow]{generator.ClassName}[/]...");
                 var result = await generator.Build(data, versions);
 
                 // Write the generated source to disk
                 var file = output.CombineWithFilePath($"{generator.ClassName}.Generated.cs");
-                AnsiConsole.MarkupLine("💾 Saving [yellow]{0}[/]...", file.GetFilename().FullPath);
+                AnsiConsole.MarkupLine($"💾 Saving [yellow]{file.GetFilename().FullPath}[/]...");
                 File.WriteAllText(file.FullPath, result);
             }
 
             return 0;
         }
 
-        private List<string> GetVersions()
+        private static List<string> GetUnicodeVersions()
         {
             var result = new List<string>();
             foreach (var field in typeof(Unicode).GetFields().Where(x => x.IsStatic))
