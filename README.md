@@ -1,5 +1,7 @@
 # Wcwidth
 
+_[![Wcwidth NuGet Version](https://img.shields.io/nuget/v/Wcwidth.svg?style=flat&label=NuGet%3A%20Wcwidth)](https://www.nuget.org/packages/Wcwidth)_
+
 This is a port of the [Python port](https://github.com/jquast/wcwidth) 
 written by Jeff Quast, which originally was written by Markus Kuhn.
 
