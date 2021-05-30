@@ -40,6 +40,9 @@
 // http://www.unicode.org/unicode/reports/tr11/
 
 using System.Collections.Generic;
+#if NET5_0
+using System.Text;
+#endif
 
 namespace Wcwidth
 {
@@ -77,19 +80,19 @@ namespace Wcwidth
         };
 
         /// <summary>
-        /// Gets the width for a Unicode character.
+        /// Gets the width of a Unicode code point.
         /// </summary>
-        /// <param name="value">The charachter to calculate the width for.</param>
+        /// <param name="value">The Unicode code point to calculate the width of.</param>
         /// <param name="version">The Unicode version to use.</param>
-        /// <returns>The width of the character.</returns>
-        public static int GetWidth(char value, Unicode? version = null)
+        /// <returns>The width of the character (-1, 0, 1, 2).</returns>
+        public static int GetWidth(int value, Unicode? version = null)
         {
             version ??= Latest;
 
             // NOTE: created by hand, there isn't anything identifiable other than
             // general Cf category code to identify these, and some characters in Cf
             // category code are of non-zero width.
-            if (_zeroWidthCf.Contains(value))
+            if (_zeroWidthCf.Contains((uint)value))
             {
                 return 0;
             }
@@ -102,14 +105,38 @@ namespace Wcwidth
 
             // Combining characters with zero width?
             var zeroTable = ZeroTable.GetTable(version.Value);
-            if (zeroTable.Exist(value))
+            if (zeroTable.Exist((uint)value))
             {
                 return 0;
             }
 
             // Wide character?
             var wideTable = WideTable.GetTable(version.Value);
-            return wideTable.Exist(value) ? 2 : 1;
+            return wideTable.Exist((uint)value) ? 2 : 1;
+        }
+
+#if NET5_0
+        /// <summary>
+        /// Gets the width of a Unicode scalar.
+        /// </summary>
+        /// <param name="value">The Unicode scalar to calculate the width of.</param>
+        /// <param name="version">The Unicode version to use.</param>
+        /// <returns>The width of the character (-1, 0, 1, 2).</returns>
+        public static int GetWidth(Rune value, Unicode? version = null)
+        {
+            return GetWidth(value.Value, version);
+        }
+#endif
+
+        /// <summary>
+        /// Gets the width of a UTF-16 code unit.
+        /// </summary>
+        /// <param name="value">The UTF-16 code unit to calculate the width of.</param>
+        /// <param name="version">The Unicode version to use.</param>
+        /// <returns>The width of the character (-1, 0, 1, 2).</returns>
+        public static int GetWidth(char value, Unicode? version = null)
+        {
+            return GetWidth((int)value, version);
         }
     }
 }
