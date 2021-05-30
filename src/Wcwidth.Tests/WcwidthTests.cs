@@ -1,4 +1,7 @@
 using System.Linq;
+#if NET5_0
+using System.Text;
+#endif
 using Shouldly;
 using Xunit;
 
@@ -113,5 +116,35 @@ namespace Wcwidth.Tests
             // Then
             length.ShouldBe(expected);
         }
+
+        [Fact]
+        public void Test_Int32_Overload()
+        {
+            // Given
+            const int codePoint = 0x1F680; // 🚀
+            var expected = 2;
+
+            // When
+            var length = UnicodeCalculator.GetWidth(codePoint);
+
+            // Then
+            length.ShouldBe(expected);
+        }
+
+#if NET5_0
+        [Fact]
+        public void Test_Rune_Overload()
+        {
+            // Given
+            var scalar = new Rune(0x1F32D); // 🌭
+            var expected = 2;
+
+            // When
+            var length = UnicodeCalculator.GetWidth(scalar);
+
+            // Then
+            length.ShouldBe(expected);
+        }
+#endif
     }
 }
