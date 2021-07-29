@@ -9,6 +9,12 @@ namespace Generator
 
         protected override Uri GetUrl(string version)
         {
+            if (version == Constants.Unicode_14_0_0.Version)
+            {
+                var filename = Constants.Unicode_14_0_0.Filenames.EastAsianWidth;
+                return new Uri($"http://www.unicode.org/Public/{version}/ucd/{filename}");
+            }
+
             return new Uri($"http://www.unicode.org/Public/{version}/ucd/EastAsianWidth.txt");
         }
 

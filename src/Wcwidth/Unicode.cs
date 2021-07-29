@@ -104,5 +104,12 @@ namespace Wcwidth
         /// </summary>
         [Description("13.0.0")]
         Version_13_0_0,
+
+        /// <summary>
+        /// Unicode version 14.0.0.
+        /// </summary>
+        /// <remarks>Experimental.</remarks>
+        [Description("14.0.0")]
+        Version_14_0_0,
     }
 }
