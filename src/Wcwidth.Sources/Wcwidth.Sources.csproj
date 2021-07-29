@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
+    <IsPackable>true</IsPackable>
+    <PackBuildOutput>false</PackBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+    <None Remove="packages.lock.json" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>NU5105</NoWarn>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="Tables\" />
+    <Compile Include="..\Wcwidth\Extensions\IntegerExtensions.cs" Link="Extensions\IntegerExtensions.cs" />
+    <Compile Include="..\Wcwidth\Tables\WideTable.cs" Link="Tables\WideTable.cs" />
+    <Compile Include="..\Wcwidth\Tables\WideTable.Generated.cs" Link="Tables\WideTable.Generated.cs" />
+    <Compile Include="..\Wcwidth\Tables\ZeroTable.cs" Link="Tables\ZeroTable.cs" />
+    <Compile Include="..\Wcwidth\Tables\ZeroTable.Generated.cs" Link="Tables\ZeroTable.Generated.cs" />
+    <Compile Include="..\Wcwidth\Unicode.cs" Link="Unicode.cs" />
+    <Compile Include="..\Wcwidth\UnicodeCalculator.cs" Link="UnicodeCalculator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NuGetizer" Version="0.7.4" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>

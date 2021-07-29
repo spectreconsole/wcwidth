@@ -37,6 +37,7 @@ Task("Package")
         NoRestore = true,
         NoBuild = true,
         OutputDirectory = "./.artifacts",
+        IncludeSource = true,
         MSBuildSettings = new DotNetCoreMSBuildSettings()
             .TreatAllWarningsAs(MSBuildTreatAllWarningsAs.Error)
     });
