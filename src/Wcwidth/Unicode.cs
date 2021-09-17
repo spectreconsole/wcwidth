@@ -7,7 +7,12 @@ namespace Wcwidth
     /// Represents a Unicode version.
     /// </summary>
     [SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores")]
-    public enum Unicode
+#if WCWIDTH_VISIBILITY_INTERNAL
+    internal
+#else
+    public
+#endif
+    enum Unicode
     {
         /// <summary>
         /// Unicode version 4.1.0.

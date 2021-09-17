@@ -49,7 +49,12 @@ namespace Wcwidth
     /// <summary>
     /// A utility for calculating the width of Unicode characters.
     /// </summary>
-    public static class UnicodeCalculator
+#if WCWIDTH_VISIBILITY_INTERNAL
+    internal
+#else
+    public
+#endif
+    static class UnicodeCalculator
     {
         private const Unicode Latest = Unicode.Version_13_0_0;
 
