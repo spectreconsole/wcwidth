@@ -25,15 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
-    <Folder Include="Tables\" />
-    <Compile Include="..\Wcwidth\Extensions\IntegerExtensions.cs" Link="Extensions\IntegerExtensions.cs" />
-    <Compile Include="..\Wcwidth\Tables\WideTable.cs" Link="Tables\WideTable.cs" />
-    <Compile Include="..\Wcwidth\Tables\WideTable.Generated.cs" Link="Tables\WideTable.Generated.cs" />
-    <Compile Include="..\Wcwidth\Tables\ZeroTable.cs" Link="Tables\ZeroTable.cs" />
-    <Compile Include="..\Wcwidth\Tables\ZeroTable.Generated.cs" Link="Tables\ZeroTable.Generated.cs" />
-    <Compile Include="..\Wcwidth\Unicode.cs" Link="Unicode.cs" />
-    <Compile Include="..\Wcwidth\UnicodeCalculator.cs" Link="UnicodeCalculator.cs" />
+    <Compile Include="..\Wcwidth\**\*.cs" Exclude="..\Wcwidth\obj\**\*" Link="External\Wcwidth\%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>
