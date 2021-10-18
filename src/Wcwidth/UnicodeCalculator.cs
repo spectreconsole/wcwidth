@@ -39,6 +39,12 @@
 //
 // http://www.unicode.org/unicode/reports/tr11/
 
+#if WCWIDTH
+#pragma warning restore
+#else
+#pragma warning disable
+#endif
+
 using System.Collections.Generic;
 #if NET5_0
 using System.Text;
