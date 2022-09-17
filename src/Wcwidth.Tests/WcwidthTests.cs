@@ -1,5 +1,5 @@
 using System.Linq;
-#if NET5_0
+#if NET6_0_OR_GREATER
 using System.Text;
 #endif
 using Shouldly;
@@ -131,7 +131,7 @@ namespace Wcwidth.Tests
             length.ShouldBe(expected);
         }
 
-#if NET5_0
+#if NET6_0_OR_GREATER
         [Fact]
         public void Test_Rune_Overload()
         {
