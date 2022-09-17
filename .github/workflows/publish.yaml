@@ -48,8 +48,6 @@ jobs:
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 5.0.301
 
       - name: Build
         shell: bash
@@ -78,8 +76,6 @@ jobs:
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 5.0.301
 
       - name: Publish
         shell: bash

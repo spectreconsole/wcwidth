@@ -46,7 +46,7 @@
 #endif
 
 using System.Collections.Generic;
-#if NET5_0
+#if NET6_0_OR_GREATER
 using System.Text;
 #endif
 
@@ -126,7 +126,7 @@ namespace Wcwidth
             return wideTable.Exist((uint)value) ? 2 : 1;
         }
 
-#if NET5_0
+#if NET6_0_OR_GREATER
         /// <summary>
         /// Gets the width of a Unicode scalar.
         /// </summary>

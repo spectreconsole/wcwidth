@@ -7,10 +7,10 @@ var configuration = Argument("configuration", "Release");
 Task("Build")
     .Does(context => 
 {
-    DotNetCoreBuild("./src/Wcwidth.sln", new DotNetCoreBuildSettings {
+    DotNetBuild("./src/Wcwidth.sln", new DotNetBuildSettings {
         Configuration = configuration,
         NoIncremental = context.HasArgument("rebuild"),
-        MSBuildSettings = new DotNetCoreMSBuildSettings()
+        MSBuildSettings = new DotNetMSBuildSettings()
             .TreatAllWarningsAs(MSBuildTreatAllWarningsAs.Error)
     });
 });
@@ -19,7 +19,7 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(context => 
 {
-    DotNetCoreTest("./src/Wcwidth.sln", new DotNetCoreTestSettings {
+    DotNetTest("./src/Wcwidth.sln", new DotNetTestSettings {
         Configuration = configuration,
         NoRestore = true,
         NoBuild = true,
@@ -32,13 +32,13 @@ Task("Package")
 {
     context.CleanDirectory("./.artifacts");
 
-    context.DotNetCorePack($"./src/Wcwidth.sln", new DotNetCorePackSettings {
+    context.DotNetPack($"./src/Wcwidth.sln", new DotNetPackSettings {
         Configuration = configuration,
         NoRestore = true,
         NoBuild = true,
         OutputDirectory = "./.artifacts",
         IncludeSource = true,
-        MSBuildSettings = new DotNetCoreMSBuildSettings()
+        MSBuildSettings = new DotNetMSBuildSettings()
             .TreatAllWarningsAs(MSBuildTreatAllWarningsAs.Error)
     });
 });
@@ -57,7 +57,7 @@ Task("Publish-NuGet")
     foreach(var file in context.GetFiles("./.artifacts/*.nupkg")) 
     {
         context.Information("Publishing {0}...", file.GetFilename().FullPath);
-        DotNetCoreNuGetPush(file.FullPath, new DotNetCoreNuGetPushSettings
+        DotNetNuGetPush(file.FullPath, new DotNetNuGetPushSettings
         {
             Source = "https://api.nuget.org/v3/index.json",
             ApiKey = apiKey,
