@@ -146,5 +146,37 @@ namespace Wcwidth.Tests
             length.ShouldBe(expected);
         }
 #endif
+
+        [Fact]
+        public void Test_Temp()
+        {
+            // Given
+            const string codePoint = "℃℉";
+            var expected = new[] { 1, 1 };
+
+            // When
+            var length = codePoint.Select(c => UnicodeCalculator.GetWidth(c));
+
+            // Then
+            length.ShouldBe(expected);
+
+            // Set custom width of char
+            UnicodeCalculator.CustomCharWidthEvent += (value, arg) =>
+            {
+                if (value == '℃' || value == '℉')
+                {
+                    arg.Handle = true;
+                    arg.Width = 2;
+                }
+            };
+            expected = new[] { 2, 2 };
+
+            // When
+            length = codePoint.Select(c => UnicodeCalculator.GetWidth(c));
+
+            // Then
+            length.ShouldBe(expected);
+        }
+
     }
 }

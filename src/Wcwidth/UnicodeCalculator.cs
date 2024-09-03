@@ -45,6 +45,7 @@
 #pragma warning disable
 #endif
 
+using System;
 using System.Collections.Generic;
 #if NET6_0_OR_GREATER
 using System.Text;
@@ -52,6 +53,22 @@ using System.Text;
 
 namespace Wcwidth
 {
+    /// <summary>
+    /// Get custom width of char.
+    /// </summary>
+    public class CharWidthEventArg
+    {
+        /// <summary>
+        /// Gets or sets a value indicating whether it been processed.
+        /// </summary>
+        public bool Handle { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the width of char.If Handle=false, Width does not take effect.
+        /// </summary>
+        public int? Width { get; set; }
+    }
+
     /// <summary>
     /// A utility for calculating the width of Unicode characters.
     /// </summary>
@@ -63,6 +80,11 @@ namespace Wcwidth
     static class UnicodeCalculator
     {
         private const Unicode Latest = Unicode.Version_15_1_0;
+
+        /// <summary>
+        /// Customize character width
+        /// </summary>
+        public static event Action<int, CharWidthEventArg> CustomCharWidthEvent;
 
         // NOTE: created by hand, there isn't anything identifiable other than
         // general Cf category code to identify these, and some characters in Cf
@@ -98,6 +120,20 @@ namespace Wcwidth
         /// <returns>The width of the character (-1, 0, 1, 2).</returns>
         public static int GetWidth(int value, Unicode? version = null)
         {
+            var arg = new CharWidthEventArg();
+
+            CustomCharWidthEvent?.Invoke(value, arg);
+
+            if (arg.Handle)
+            {
+                if (arg.Width == null)
+                {
+                    throw new ArgumentNullException("Please input Width of CharWidthEventArg");
+                }
+
+                return arg.Width.Value;
+            }
+
             version ??= Latest;
 
             // NOTE: created by hand, there isn't anything identifiable other than
