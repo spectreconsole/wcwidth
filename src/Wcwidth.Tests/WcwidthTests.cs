@@ -118,6 +118,16 @@ namespace Wcwidth.Tests
         }
 
         [Fact]
+        public void Test_U4DC0()
+        {
+            // Given, When
+            var length = UnicodeCalculator.GetWidth('\u4DC0');
+
+            // Then
+            length.ShouldBe(2);
+        }
+
+        [Fact]
         public void Test_Int32_Overload()
         {
             // Given

@@ -129,9 +129,21 @@ namespace Wcwidth
         Version_15_0_0,
 
         /// <summary>
-        /// Unicode version 15.0.0.
+        /// Unicode version 15.1.0.
         /// </summary>
         [Description("15.1.0")]
         Version_15_1_0,
+
+        /// <summary>
+        /// Unicode version 16.0.0.
+        /// </summary>
+        [Description("16.0.0")]
+        Version_16_0_0,
+
+        /// <summary>
+        /// Unicode version 17.0.0.
+        /// </summary>
+        [Description("17.0.0")]
+        Version_17_0_0,
     }
 }
