@@ -41,5 +41,5 @@ jobs:
         shell: bash
         run: |
           dotnet tool restore
-          dotnet cake --target="publish" \
+          dotnet make publish \
             --nuget-key="${{secrets.NUGET_API_KEY}}"

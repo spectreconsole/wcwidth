@@ -1,0 +1,17 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="../README.md" />
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="Wcwidth.Generator/Wcwidth.Generator.csproj" />
+  <Project Path="Wcwidth.Sources/Wcwidth.Sources.csproj" />
+  <Project Path="Wcwidth.Tests/Wcwidth.Tests.csproj" />
+  <Project Path="Wcwidth/Wcwidth.csproj" />
+</Solution>

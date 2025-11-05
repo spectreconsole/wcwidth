@@ -1,3 +1,5 @@
+#:sdk Cake.Sdk@5.1.25296.94-beta
+
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
@@ -7,7 +9,7 @@ var configuration = Argument("configuration", "Release");
 Task("Build")
     .Does(context => 
 {
-    DotNetBuild("./src/Wcwidth.sln", new DotNetBuildSettings {
+    DotNetBuild("./src/Wcwidth.slnx", new DotNetBuildSettings {
         Configuration = configuration,
         NoIncremental = context.HasArgument("rebuild"),
         MSBuildSettings = new DotNetMSBuildSettings()
@@ -19,7 +21,7 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(context => 
 {
-    DotNetTest("./src/Wcwidth.sln", new DotNetTestSettings {
+    DotNetTest("./src/Wcwidth.slnx", new DotNetTestSettings {
         Configuration = configuration,
         NoRestore = true,
         NoBuild = true,
@@ -32,7 +34,7 @@ Task("Package")
 {
     context.CleanDirectory("./.artifacts");
 
-    context.DotNetPack($"./src/Wcwidth.sln", new DotNetPackSettings {
+    context.DotNetPack($"./src/Wcwidth.slnx", new DotNetPackSettings {
         Configuration = configuration,
         NoRestore = true,
         NoBuild = true,
@@ -48,7 +50,7 @@ Task("Publish-NuGet")
     .IsDependentOn("Package")
     .Does(context => 
 {
-    var apiKey = Argument<string>("nuget-key", null);
+    var apiKey = Argument<string?>("nuget-key", null);
     if(string.IsNullOrWhiteSpace(apiKey)) {
         throw new CakeException("No NuGet API key was provided.");
     }
@@ -77,4 +79,4 @@ Task("Default")
 ////////////////////////////////////////////////////////////////
 // Execution
 
-RunTarget(target)
+RunTarget(target);

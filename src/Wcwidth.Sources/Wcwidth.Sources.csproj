@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net10.0;net9.0;net8.0;netstandard2.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <PackBuildOutput>false</PackBuildOutput>
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-    <None Remove="packages.lock.json" />
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json"/>
+    <None Remove="packages.lock.json"/>
   </ItemGroup>
 
   <PropertyGroup>
@@ -25,11 +25,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Wcwidth\**\*.cs" Exclude="..\Wcwidth\obj\**\*" Link="External\Wcwidth\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\Wcwidth\**\*.cs" Exclude="..\Wcwidth\obj\**\*" Link="External\Wcwidth\%(RecursiveDir)%(Filename)%(Extension)"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NuGetizer" Version="0.7.4" PrivateAssets="All" />
+    <PackageReference Include="NuGetizer" PrivateAssets="All"/>
   </ItemGroup>
 
 </Project>

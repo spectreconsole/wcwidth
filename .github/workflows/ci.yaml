@@ -35,4 +35,4 @@ jobs:
         shell: bash
         run: |
           dotnet tool restore
-          dotnet cake
+          dotnet make

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Spectre.Console.Cli;
 using Spectre.Console;
@@ -15,20 +16,16 @@ namespace Generator
     [Description("Generates Unicode tables")]
     public sealed class TableGeneratorCommand : AsyncCommand<TableGeneratorSettings>
     {
-        private readonly IFileSystem _fileSystem;
-        private readonly List<TableGenerator> _generators;
-
-        public TableGeneratorCommand()
+        private readonly IFileSystem _fileSystem = new FileSystem();
+        private readonly List<TableGenerator> _generators = new()
         {
-            _fileSystem = new FileSystem();
-            _generators = new List<TableGenerator>
-            {
-                new ZeroTableGenerator(),
-                new WideTableGenerator(),
-            };
-        }
+            new ZeroTableGenerator(),
+            new WideTableGenerator(),
+        };
 
-        public override async Task<int> ExecuteAsync(CommandContext context, TableGeneratorSettings settings)
+        public override async Task<int> ExecuteAsync(
+            CommandContext context, TableGeneratorSettings settings,
+            CancellationToken cancellationToken)
         {
             if (settings is null)
             {
@@ -59,7 +56,7 @@ namespace Generator
                 // Write the generated source to disk
                 var file = output.CombineWithFilePath($"{generator.ClassName}.Generated.cs");
                 AnsiConsole.MarkupLine($"💾 Saving [yellow]{file.GetFilename().FullPath}[/]...");
-                File.WriteAllText(file.FullPath, result);
+                await File.WriteAllTextAsync(file.FullPath, result, cancellationToken);
             }
 
             return 0;
