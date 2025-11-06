@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Generator
+namespace Generator;
+
+public static class Extensions
 {
-    public static class Extensions
+    extension(Match match)
     {
-        public static string GetGroupValue(this Match match, string group, string defaultValue = null)
+        public string? GetGroupValue(string group, string? defaultValue = null)
         {
             if (match is null)
             {
@@ -17,8 +20,31 @@ namespace Generator
                 ? match.Groups[group].Value
                 : defaultValue;
         }
+    }
 
-        public static IEnumerable<(int Index, T Item)> Enumerate<T>(this IEnumerable<T> source)
+    extension<T>(IEnumerator<T> source)
+    {
+        private IEnumerable<(int Index, T Item)> Enumerate()
+        {
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            var last = !source.MoveNext();
+
+            for (var index = 0; !last; index++)
+            {
+                var current = source.Current;
+                last = !source.MoveNext();
+                yield return (index, current);
+            }
+        }
+    }
+
+    extension<T>(IEnumerable<T> source)
+    {
+        public IEnumerable<(int Index, T Item)> Enumerate()
         {
             if (source is null)
             {
@@ -27,23 +53,40 @@ namespace Generator
 
             return Enumerate(source.GetEnumerator());
         }
+    }
 
-        public static IEnumerable<(int Index, T Item)> Enumerate<T>(this IEnumerator<T> source)
+    extension(Enumerable)
+    {
+        public static IEnumerable<int> RangeStartEnd(int start, int end)
         {
-            if (source is null)
+            return Enumerable.Range(start, end - start + 1);
+        }
+    }
+
+    extension<T>(HashSet<T> source)
+    {
+        public void AddRange(IEnumerable<T> items)
+        {
+            foreach (var item in items)
             {
-                throw new ArgumentNullException(nameof(source));
+                source.Add(item);
+            }
+        }
+    }
+
+    extension(string text)
+    {
+        public (string Before, string After) Partition(string separator)
+        {
+            var index = text.IndexOf(separator, StringComparison.Ordinal);
+            if (index == -1)
+            {
+                return (text, string.Empty);
             }
 
-            var last = !source.MoveNext();
-            T current;
-
-            for (var index = 0; !last; index++)
-            {
-                current = source.Current;
-                last = !source.MoveNext();
-                yield return (index, current);
-            }
+            return (
+                text[..index],
+                text.Substring(index, text.Length - index));
         }
     }
 }

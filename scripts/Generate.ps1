@@ -1,6 +1,4 @@
-##########################################################
-# Script that generates known colors and lookup tables.
-##########################################################
+#!/usr/local/bin/pwsh
 
 $Output = Join-Path $PSScriptRoot ".output"
 $Data = Join-Path $PSScriptRoot ".data"
@@ -25,4 +23,5 @@ Pop-Location
 # Copy the files to the correct location
 Copy-Item  (Join-Path "$Output" "ZeroTable.Generated.cs") -Destination "$Source/ZeroTable.Generated.cs"
 Copy-Item  (Join-Path "$Output" "WideTable.Generated.cs") -Destination "$Source/WideTable.Generated.cs"
+Copy-Item  (Join-Path "$Output" "Vs16Table.Generated.cs") -Destination "$Source/Vs16Table.Generated.cs"
 

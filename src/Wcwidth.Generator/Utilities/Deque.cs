@@ -19,7 +19,7 @@ namespace Generator
 
         public T Pop()
         {
-            var last = _items[_items.Count - 1];
+            var last = _items[^1];
             _items.RemoveAt(_items.Count - 1);
             return last;
         }

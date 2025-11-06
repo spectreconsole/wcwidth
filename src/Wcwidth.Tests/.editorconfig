@@ -1,14 +1,18 @@
-root = false
 
 [*.cs]
 # CS1591: Missing XML comment for publicly visible type or member
-dotnet_diagnostic.CS1591.severity = none
+dotnet_diagnostic.cs1591.severity = none
 
 # SA1600: Elements should be documented
-dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.sa1600.severity = none
 
 # SA1633: File should have header
-dotnet_diagnostic.SA1633.severity = none
+dotnet_diagnostic.sa1633.severity = none
 
 # CA1707: Identifiers should not contain underscores
-dotnet_diagnostic.CA1707.severity = none
+dotnet_diagnostic.ca1707.severity = none
+
+# ReSharper properties
+resharper_csharp_int_align_comments = true
+resharper_csharp_wrap_after_invocation_lpar = true
+resharper_trailing_comma_in_multiline_lists = true

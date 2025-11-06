@@ -1,18 +1,24 @@
-root = false
 
 [*.cs]
 
 # CS1591: Missing XML comment for publicly visible type or member
-dotnet_diagnostic.CS1591.severity = none
+dotnet_diagnostic.cs1591.severity = none
 
 # SA1600: Elements should be documented
-dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.sa1600.severity = none
 
 # CA1305: Specify IFormatProvider
-dotnet_diagnostic.CA1305.severity = none
+dotnet_diagnostic.ca1305.severity = none
 
 # CA1055: URI-like return values should not be strings
-dotnet_diagnostic.CA1055.severity = none
+dotnet_diagnostic.ca1055.severity = none
 
 # Default severity for all analyzer diagnostics
 dotnet_analyzer_diagnostic.severity = none
+
+# Microsoft .NET properties
+csharp_new_line_before_members_in_object_initializers = true
+
+# ReSharper properties
+resharper_trailing_comma_in_multiline_lists = true
+resharper_wrap_object_and_collection_initializer_style = chop_always

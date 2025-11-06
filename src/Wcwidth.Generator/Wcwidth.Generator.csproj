@@ -12,9 +12,9 @@
     <PackageReference Include="Spectre.IO"/>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Wcwidth\Wcwidth.csproj"/>
-  </ItemGroup>
+<!--  <ItemGroup>-->
+<!--    <ProjectReference Include="..\Wcwidth\Wcwidth.csproj"/>-->
+<!--  </ItemGroup>-->
 
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json"/>
@@ -24,6 +24,15 @@
     <None Update="Templates\Table.template">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Wcwidth\Extensions\IntegerExtensions.cs">
+      <Link>External\IntegerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Wcwidth\Unicode.cs">
+      <Link>External\Unicode.cs</Link>
+    </Compile>
   </ItemGroup>
 
 </Project>
