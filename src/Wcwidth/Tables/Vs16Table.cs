@@ -1,3 +1,9 @@
+#if WCWIDTH
+#pragma warning restore
+#else
+#pragma warning disable
+#endif
+
 namespace Wcwidth;
 
 internal static partial class Vs16Table
