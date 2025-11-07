@@ -67,8 +67,8 @@ public
     // general Cf category code to identify these, and some characters in Cf
     // category code are of non-zero width.
     // Also includes some Cc, Mn, Zl, and Zp characters
-    private static readonly HashSet<uint> _zeroWidthCf = new HashSet<uint>
-    {
+    private static readonly HashSet<int> _zeroWidthCf =
+    [
         0, // Null (Cc)
         0x034F, // Combining grapheme joiner (Mn)
         0x200B, // Zero width space
@@ -86,8 +86,8 @@ public
         0x2060, // Word joiner
         0x2061, // Function application
         0x2062, // Invisible times
-        0x2063, // Invisible separator
-    };
+        0x2063 // Invisible separator
+    ];
 
     /// <summary>
     /// Gets the width of a Unicode code point.
@@ -102,7 +102,7 @@ public
         // NOTE: created by hand, there isn't anything identifiable other than
         // general Cf category code to identify these, and some characters in Cf
         // category code are of non-zero width.
-        if (_zeroWidthCf.Contains((uint)value))
+        if (_zeroWidthCf.Contains(value))
         {
             return 0;
         }
@@ -113,16 +113,14 @@ public
             return -1;
         }
 
-        // Combining characters with zero width?
-        var zeroTable = ZeroTable.GetTable(version.Value);
-        if (zeroTable.Exist((uint)value))
+        // Zero width?
+        if (ZeroTable.GetTable(version.Value).Exist(value))
         {
             return 0;
         }
 
         // Wide character?
-        var wideTable = WideTable.GetTable(version.Value);
-        return wideTable.Exist((uint)value) ? 2 : 1;
+        return 1 + WideTable.GetTable(version.Value).Find(value);
     }
 
 #if NET6_0_OR_GREATER
@@ -178,7 +176,7 @@ public
                 // known to be converted from narrow to wide by the VS16 character.
                 if (version >= Unicode.Version_9_0_0)
                 {
-                    width += Vs16Table.GetTable(Unicode.Version_9_0_0).Find((uint)lastMeasureRune.Value.Value);
+                    width += Vs16Table.GetTable(Unicode.Version_9_0_0).Find(lastMeasureRune.Value.Value);
                     lastMeasureRune = null;
                 }
 

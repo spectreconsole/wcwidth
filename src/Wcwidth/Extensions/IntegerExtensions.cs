@@ -2,12 +2,12 @@ namespace Wcwidth;
 
 internal static class IntegerExtensions
 {
-    public static bool Exist(this uint[,] table, uint value)
+    public static bool Exist(this int[,] table, int value)
     {
         return Find(table, value) != 0;
     }
 
-    public static int Find(this uint[,] table, uint value)
+    public static int Find(this int[,] table, int value)
     {
         if (table is null)
         {

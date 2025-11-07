@@ -13,7 +13,7 @@ namespace Wcwidth;
 
 internal static partial class Vs16Table
 {
-    private static uint[,] GenerateTable(Unicode version)
+    private static int[,] GenerateTable(Unicode version)
     {
         return version switch
         {
@@ -22,9 +22,9 @@ internal static partial class Vs16Table
         };
     }
 
-    private static uint[,] Unicode_9_0_0()
+    private static int[,] Unicode_9_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000023, 0x000023 },
             { 0x00002A, 0x00002A },

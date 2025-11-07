@@ -13,7 +13,7 @@ namespace Wcwidth;
 
 internal static partial class ZeroTable
 {
-    private static uint[,] GenerateTable(Unicode version)
+    private static int[,] GenerateTable(Unicode version)
     {
         return version switch
         {
@@ -42,9 +42,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_4_1_0()
+    private static int[,] Unicode_4_1_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -257,9 +257,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_5_0_0()
+    private static int[,] Unicode_5_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -485,9 +485,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_5_1_0()
+    private static int[,] Unicode_5_1_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -759,9 +759,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_5_2_0()
+    private static int[,] Unicode_5_2_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -1089,9 +1089,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_6_0_0()
+    private static int[,] Unicode_6_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -1434,9 +1434,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_6_1_0()
+    private static int[,] Unicode_6_1_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -1808,9 +1808,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_6_2_0()
+    private static int[,] Unicode_6_2_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -2182,9 +2182,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_6_3_0()
+    private static int[,] Unicode_6_3_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -2559,9 +2559,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_7_0_0()
+    private static int[,] Unicode_7_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -2993,9 +2993,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_8_0_0()
+    private static int[,] Unicode_8_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -3439,9 +3439,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_9_0_0()
+    private static int[,] Unicode_9_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -3913,9 +3913,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_10_0_0()
+    private static int[,] Unicode_10_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -4408,9 +4408,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_11_0_0()
+    private static int[,] Unicode_11_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -4922,9 +4922,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_12_0_0()
+    private static int[,] Unicode_12_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -5444,9 +5444,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_12_1_0()
+    private static int[,] Unicode_12_1_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -5966,9 +5966,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_13_0_0()
+    private static int[,] Unicode_13_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -6504,9 +6504,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_14_0_0()
+    private static int[,] Unicode_14_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -7054,9 +7054,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_15_0_0()
+    private static int[,] Unicode_15_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -7619,9 +7619,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_15_1_0()
+    private static int[,] Unicode_15_1_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -8184,9 +8184,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_16_0_0()
+    private static int[,] Unicode_16_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },
@@ -8768,9 +8768,9 @@ internal static partial class ZeroTable
         };
     }
 
-    private static uint[,] Unicode_17_0_0()
+    private static int[,] Unicode_17_0_0()
     {
-        return new uint[,]
+        return new int[,]
         {
             { 0x000000, 0x000000 },
             { 0x000300, 0x00036F },

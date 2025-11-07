@@ -8,16 +8,16 @@ namespace Wcwidth
 {
     internal static partial class ZeroTable
     {
-        private static readonly Dictionary<Unicode, uint[,]> _lookup;
+        private static readonly Dictionary<Unicode, int[,]> _lookup;
         private static readonly object _lock;
 
         static ZeroTable()
         {
-            _lookup = new Dictionary<Unicode, uint[,]>();
+            _lookup = new Dictionary<Unicode, int[,]>();
             _lock = new object();
         }
 
-        public static uint[,] GetTable(Unicode version)
+        public static int[,] GetTable(Unicode version)
         {
             if (!_lookup.TryGetValue(version, out var table))
             {

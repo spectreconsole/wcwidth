@@ -97,7 +97,7 @@ public static class TableGenerator
         // Perform culling on any values that are already understood as 'wide'
         // without the variation-16 selector
         var wideTable = wideTables.Single(x => x.Version == unicodeVersion).ToBinarySearchableArray();
-        table.Values = new HashSet<int>(table.Values.Where(v => !wideTable.Exist((uint)v)));
+        table.Values = new HashSet<int>(table.Values.Where(v => !wideTable.Exist(v)));
 
         return new UnicodeRenderingContext
         {

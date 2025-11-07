@@ -13,7 +13,7 @@ namespace Wcwidth;
 
 internal static partial class {{ name }}
 {
-    private static uint[,] GenerateTable(Unicode version)
+    private static int[,] GenerateTable(Unicode version)
     {
         return version switch
         {
@@ -24,9 +24,9 @@ internal static partial class {{ name }}
         };
     }
     {{~ for item in data }}
-    private static uint[,] Unicode_{{ item.version | string.replace "." "_" }}()
+    private static int[,] Unicode_{{ item.version | string.replace "." "_" }}()
     {
-        return new uint[,]
+        return new int[,]
         {
             {{~ for range in item.ranges ~}}
             {%{{}%} {{ range | range_start | hex_pad 6 }}, {{ range | range_end | hex_pad 6 }} {%{}}%},
