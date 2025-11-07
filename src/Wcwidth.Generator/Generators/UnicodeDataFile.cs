@@ -1,11 +1,4 @@
-using System;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Spectre.Console;
-using Spectre.IO;
-
-namespace Generator.Generators;
+namespace Wcwidth.Generator;
 
 public sealed class UnicodeDataFile
 {

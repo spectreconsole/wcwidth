@@ -1,12 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using Spectre.IO;
-using Wcwidth;
-
-namespace Generator.Generators;
+namespace Wcwidth.Generator;
 
 public sealed class TableGeneratorContext
 {

@@ -1,23 +1,19 @@
-using System;
-using System.Collections.Generic;
+namespace Wcwidth.Generator;
 
-namespace Generator
+public sealed class UnicodeData
 {
-    public sealed class UnicodeData
+    public required string Version { get; init; }
+    public required List<(int Start, int End)> Ranges { get; init; }
+
+    public uint[,] ToBinarySearchableArray()
     {
-        public required string Version { get; init; }
-        public required List<(int Start, int End)> Ranges { get; set; }
-
-        public uint[,] ToBinarySearchableArray()
+        var l = new uint[Ranges.Count, 2];
+        for (var i = 0; i < Ranges.Count; i++)
         {
-            var l = new uint[Ranges.Count, 2];
-            for (var i = 0; i < Ranges.Count; i++)
-            {
-                l[i, 0] = (uint)Ranges[i].Start;
-                l[i, 1] = (uint)Ranges[i].End;
-            }
-
-            return l;
+            l[i, 0] = (uint)Ranges[i].Start;
+            l[i, 1] = (uint)Ranges[i].End;
         }
+
+        return l;
     }
 }

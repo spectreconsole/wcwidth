@@ -45,171 +45,167 @@
 #pragma warning disable
 #endif
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 #if NET6_0_OR_GREATER
 using System.Text;
 #endif
 
-namespace Wcwidth
-{
-    /// <summary>
-    /// A utility for calculating the width of Unicode characters.
-    /// </summary>
+namespace Wcwidth;
+
+/// <summary>
+/// A utility for calculating the width of Unicode characters.
+/// </summary>
 #if WCWIDTH_VISIBILITY_INTERNAL
     internal
 #else
-    public
+public
 #endif
-        static class UnicodeCalculator
+    static class UnicodeCalculator
+{
+    private const Unicode Latest = Unicode.Version_16_0_0;
+
+    // NOTE: created by hand, there isn't anything identifiable other than
+    // general Cf category code to identify these, and some characters in Cf
+    // category code are of non-zero width.
+    // Also includes some Cc, Mn, Zl, and Zp characters
+    private static readonly HashSet<uint> _zeroWidthCf = new HashSet<uint>
     {
-        private const Unicode Latest = Unicode.Version_16_0_0;
+        0, // Null (Cc)
+        0x034F, // Combining grapheme joiner (Mn)
+        0x200B, // Zero width space
+        0x200C, // Zero width non-joiner
+        0x200D, // Zero width joiner
+        0x200E, // Left-to-right mark
+        0x200F, // Right-to-left mark
+        0x2028, // Line separator (Zl)
+        0x2029, // Paragraph separator (Zp)
+        0x202A, // Left-to-right embedding
+        0x202B, // Right-to-left embedding
+        0x202C, // Pop directional formatting
+        0x202D, // Left-to-right override
+        0x202E, // Right-to-left override
+        0x2060, // Word joiner
+        0x2061, // Function application
+        0x2062, // Invisible times
+        0x2063, // Invisible separator
+    };
+
+    /// <summary>
+    /// Gets the width of a Unicode code point.
+    /// </summary>
+    /// <param name="value">The Unicode code point to calculate the width of.</param>
+    /// <param name="version">The Unicode version to use.</param>
+    /// <returns>The width of the character (-1, 0, 1, 2).</returns>
+    public static int GetWidth(int value, Unicode? version = null)
+    {
+        version ??= Latest;
 
         // NOTE: created by hand, there isn't anything identifiable other than
         // general Cf category code to identify these, and some characters in Cf
         // category code are of non-zero width.
-        // Also includes some Cc, Mn, Zl, and Zp characters
-        private static readonly HashSet<uint> _zeroWidthCf = new HashSet<uint>
+        if (_zeroWidthCf.Contains((uint)value))
         {
-            0, // Null (Cc)
-            0x034F, // Combining grapheme joiner (Mn)
-            0x200B, // Zero width space
-            0x200C, // Zero width non-joiner
-            0x200D, // Zero width joiner
-            0x200E, // Left-to-right mark
-            0x200F, // Right-to-left mark
-            0x2028, // Line separator (Zl)
-            0x2029, // Paragraph separator (Zp)
-            0x202A, // Left-to-right embedding
-            0x202B, // Right-to-left embedding
-            0x202C, // Pop directional formatting
-            0x202D, // Left-to-right override
-            0x202E, // Right-to-left override
-            0x2060, // Word joiner
-            0x2061, // Function application
-            0x2062, // Invisible times
-            0x2063, // Invisible separator
-        };
-
-        /// <summary>
-        /// Gets the width of a Unicode code point.
-        /// </summary>
-        /// <param name="value">The Unicode code point to calculate the width of.</param>
-        /// <param name="version">The Unicode version to use.</param>
-        /// <returns>The width of the character (-1, 0, 1, 2).</returns>
-        public static int GetWidth(int value, Unicode? version = null)
-        {
-            version ??= Latest;
-
-            // NOTE: created by hand, there isn't anything identifiable other than
-            // general Cf category code to identify these, and some characters in Cf
-            // category code are of non-zero width.
-            if (_zeroWidthCf.Contains((uint)value))
-            {
-                return 0;
-            }
-
-            // C0/C1 control characters
-            if (value < 32 || (value >= 0x07F && value < 0x0A0))
-            {
-                return -1;
-            }
-
-            // Combining characters with zero width?
-            var zeroTable = ZeroTable.GetTable(version.Value);
-            if (zeroTable.Exist((uint)value))
-            {
-                return 0;
-            }
-
-            // Wide character?
-            var wideTable = WideTable.GetTable(version.Value);
-            return wideTable.Exist((uint)value) ? 2 : 1;
+            return 0;
         }
 
-#if NET6_0_OR_GREATER
-        /// <summary>
-        /// Gets the width of a Unicode scalar.
-        /// </summary>
-        /// <param name="value">The Unicode scalar to calculate the width of.</param>
-        /// <param name="version">The Unicode version to use.</param>
-        /// <returns>The width of the character (-1, 0, 1, 2).</returns>
-        public static int GetWidth(Rune value, Unicode? version = null)
+        // C0/C1 control characters
+        if (value < 32 || (value >= 0x07F && value < 0x0A0))
         {
-            return GetWidth(value.Value, version);
-        }
-#endif
-
-        /// <summary>
-        /// Gets the width of a UTF-16 code unit.
-        /// </summary>
-        /// <param name="value">The UTF-16 code unit to calculate the width of.</param>
-        /// <param name="version">The Unicode version to use.</param>
-        /// <returns>The width of the character (-1, 0, 1, 2).</returns>
-        public static int GetWidth(char value, Unicode? version = null)
-        {
-            return GetWidth((int)value, version);
+            return -1;
         }
 
-#if NET6_0_OR_GREATER
-        public static int GetWidth(string value, Unicode? version = null)
+        // Combining characters with zero width?
+        var zeroTable = ZeroTable.GetTable(version.Value);
+        if (zeroTable.Exist((uint)value))
         {
-            version ??= Latest;
-
-            var runes = value.EnumerateRunes().ToArray();
-            var end = runes.Length;
-
-            var width = 0;
-            var index = 0;
-            var lastMeasureRune = default(Rune?);
-            while (index < end)
-            {
-                var rune = runes[index];
-
-                if (rune.Value == '\u200D')
-                {
-                    // Zero Width Joiner, do not measure this or next character
-                    index += 2;
-                    continue;
-                }
-
-                if (rune.Value == '\uFE0F' && lastMeasureRune != null)
-                {
-                    // on variation selector 16 (VS16) following another character,
-                    // conditionally add '1' to the measured width if that character is
-                    // known to be converted from narrow to wide by the VS16 character.
-                    if (version >= Unicode.Version_9_0_0)
-                    {
-                        width += Vs16Table.GetTable(Unicode.Version_9_0_0).Find((uint)lastMeasureRune.Value.Value);
-                        lastMeasureRune = null;
-                    }
-
-                    index++;
-                    continue;
-                }
-
-                // Measure rune at current index
-                var wcw = GetWidth(rune, version);
-                if (wcw < 0)
-                {
-                    // Early return -1 on C0 and C1 control characters
-                    return wcw;
-                }
-
-                if (wcw > 0)
-                {
-                    // Track last character measured to contain a cell, so that
-                    // subsequent VS-16 modifiers may be understood.
-                    lastMeasureRune = rune;
-                }
-
-                width += wcw;
-                index++;
-            }
-
-            return width;
+            return 0;
         }
-#endif
+
+        // Wide character?
+        var wideTable = WideTable.GetTable(version.Value);
+        return wideTable.Exist((uint)value) ? 2 : 1;
     }
+
+#if NET6_0_OR_GREATER
+    /// <summary>
+    /// Gets the width of a Unicode scalar.
+    /// </summary>
+    /// <param name="value">The Unicode scalar to calculate the width of.</param>
+    /// <param name="version">The Unicode version to use.</param>
+    /// <returns>The width of the character (-1, 0, 1, 2).</returns>
+    public static int GetWidth(Rune value, Unicode? version = null)
+    {
+        return GetWidth(value.Value, version);
+    }
+#endif
+
+    /// <summary>
+    /// Gets the width of a UTF-16 code unit.
+    /// </summary>
+    /// <param name="value">The UTF-16 code unit to calculate the width of.</param>
+    /// <param name="version">The Unicode version to use.</param>
+    /// <returns>The width of the character (-1, 0, 1, 2).</returns>
+    public static int GetWidth(char value, Unicode? version = null)
+    {
+        return GetWidth((int)value, version);
+    }
+
+#if NET6_0_OR_GREATER
+    public static int GetWidth(string value, Unicode? version = null)
+    {
+        version ??= Latest;
+
+        var runes = value.EnumerateRunes().ToArray();
+        var end = runes.Length;
+
+        var width = 0;
+        var index = 0;
+        var lastMeasureRune = default(Rune?);
+        while (index < end)
+        {
+            var rune = runes[index];
+
+            if (rune.Value == '\u200D')
+            {
+                // Zero Width Joiner, do not measure this or next character
+                index += 2;
+                continue;
+            }
+
+            if (rune.Value == '\uFE0F' && lastMeasureRune != null)
+            {
+                // on variation selector 16 (VS16) following another character,
+                // conditionally add '1' to the measured width if that character is
+                // known to be converted from narrow to wide by the VS16 character.
+                if (version >= Unicode.Version_9_0_0)
+                {
+                    width += Vs16Table.GetTable(Unicode.Version_9_0_0).Find((uint)lastMeasureRune.Value.Value);
+                    lastMeasureRune = null;
+                }
+
+                index++;
+                continue;
+            }
+
+            // Measure rune at current index
+            var wcw = GetWidth(rune, version);
+            if (wcw < 0)
+            {
+                // Early return -1 on C0 and C1 control characters
+                return wcw;
+            }
+
+            if (wcw > 0)
+            {
+                // Track last character measured to contain a cell, so that
+                // subsequent VS-16 modifiers may be understood.
+                lastMeasureRune = rune;
+            }
+
+            width += wcw;
+            index++;
+        }
+
+        return width;
+    }
+#endif
 }

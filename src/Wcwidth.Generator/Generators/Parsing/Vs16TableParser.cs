@@ -1,21 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-
-namespace Generator;
+namespace Wcwidth.Generator;
 
 public static class Vs16TableParser
 {
-    private static readonly Regex _regex;
-
-    static Vs16TableParser()
-    {
-        _regex = new Regex("^(?<start>[0-9A-F]{4,6})(..(?<end>[0-9A-F]{4,6})?)?\\s*;(?<property>[A-Za-z ]*)#(?<comment>.*$)");
-    }
-
     public static IEnumerable<UnicodeTableEntry> Parse(Stream stream)
     {
         if (stream is null)
@@ -64,7 +50,7 @@ public static class Vs16TableParser
         var properties = fields.Skip(1).ToArray();
 
         var codePoints = codePointsString.Trim().Split(' ');
-        if (codePoints.Length == 2 && codePoints[1] == "FE0F")
+        if (codePoints is [_, "FE0F"])
         {
             return new UnicodeTableEntry
             {

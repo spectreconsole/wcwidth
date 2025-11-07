@@ -12,16 +12,8 @@
     <PackageReference Include="Spectre.IO"/>
   </ItemGroup>
 
-<!--  <ItemGroup>-->
-<!--    <ProjectReference Include="..\Wcwidth\Wcwidth.csproj"/>-->
-<!--  </ItemGroup>-->
-
   <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Templates\Table.template">
+    <None Update="Templates\*.template">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

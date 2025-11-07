@@ -1,16 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Generator.Generators;
-using Spectre.Console.Cli;
-using Spectre.Console;
-using Spectre.IO;
-using Wcwidth.Generator.Generators;
-
-namespace Generator;
+namespace Wcwidth.Generator;
 
 [Description("Generates Unicode tables")]
 public sealed class TableGeneratorCommand : AsyncCommand<TableGeneratorSettings>
@@ -53,7 +41,7 @@ public sealed class TableGeneratorCommand : AsyncCommand<TableGeneratorSettings>
                 DataPath = data,
             };
 
-            AnsiConsole.MarkupLine($"⏳ Running [yellow]{generator.Name}[/]...");
+            AnsiConsole.MarkupLine($"⏳ Generating [yellow]{generator.Name}[/]...");
             var renderingCtx = await generator.Run(ctx);
             var result = await TableRenderer.Render(renderingCtx);
 

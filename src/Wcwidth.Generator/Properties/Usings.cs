@@ -1,0 +1,10 @@
+global using System.Collections;
+global using System.ComponentModel;
+global using System.Globalization;
+global using System.Reflection;
+global using System.Text.RegularExpressions;
+global using Scriban;
+global using Scriban.Runtime;
+global using Spectre.Console;
+global using Spectre.Console.Cli;
+global using Spectre.IO;

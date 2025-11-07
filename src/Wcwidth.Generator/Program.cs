@@ -1,18 +1,15 @@
-using Spectre.Console.Cli;
+namespace Wcwidth.Generator;
 
-namespace Generator
+public static class Program
 {
-    public static class Program
+    public static int Main(string[] args)
     {
-        public static int Main(string[] args)
+        var app = new CommandApp();
+        app.Configure(config =>
         {
-            var app = new CommandApp();
-            app.Configure(config =>
-            {
-                config.AddCommand<TableGeneratorCommand>("tables");
-            });
+            config.AddCommand<TableGeneratorCommand>("tables");
+        });
 
-            return app.Run(args);
-        }
+        return app.Run(args);
     }
 }

@@ -9,6 +9,7 @@
     <File Path=".editorconfig" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
+    <File Path="..\build.cs" />
   </Folder>
   <Project Path="Wcwidth.Generator/Wcwidth.Generator.csproj" />
   <Project Path="Wcwidth.Sources/Wcwidth.Sources.csproj" />

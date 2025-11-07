@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Text.RegularExpressions;
-
-namespace Generator;
+namespace Wcwidth.Generator;
 
 public static class UnicodeTableParser
 {

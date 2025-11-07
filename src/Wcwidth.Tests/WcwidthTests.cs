@@ -1,8 +1,3 @@
-using System;
-using System.Linq;
-using Shouldly;
-using Xunit;
-
 namespace Wcwidth.Tests;
 
 public sealed partial class WcwidthTests

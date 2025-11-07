@@ -1,13 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Wcwidth;
-
-namespace Generator.Generators;
+namespace Wcwidth.Generator;
 
 public static class TableGenerator
 {
@@ -17,7 +8,7 @@ public static class TableGenerator
 
         foreach (var version in context.GetUnicodeVersions())
         {
-            var table = ParseCategory( await UnicodeDataFile.EastAsianWidth(context, version), wide: 2);
+            var table = ParseCategory(await UnicodeDataFile.EastAsianWidth(context, version), wide: 2);
 
             // Subtract wide characters that were defined above as 'W' category in EastAsianWidth,
             // but also zero-width category 'Mn' or 'Mc' in DerivedGeneralCategory
@@ -40,7 +31,7 @@ public static class TableGenerator
             {
                 Version = version,
                 Ranges = table.BuildRanges(),
-            });;
+            }); ;
         }
 
         return new UnicodeRenderingContext
@@ -74,7 +65,7 @@ public static class TableGenerator
             {
                 Version = version,
                 Ranges = table.BuildRanges(),
-            });;
+            }); ;
         }
 
         return new UnicodeRenderingContext

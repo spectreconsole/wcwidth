@@ -1,37 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
+namespace Wcwidth.Generator;
 
-namespace Generator
+public sealed class Deque<T> : IEnumerable<T>
 {
-    public sealed class Deque<T> : IEnumerable<T>
+    private readonly List<T> _items = [];
+
+    public void Append(T item)
     {
-        private readonly List<T> _items;
+        _items.Add(item);
+    }
 
-        public Deque()
-        {
-            _items = new List<T>();
-        }
+    public T Pop()
+    {
+        var last = _items[^1];
+        _items.RemoveAt(_items.Count - 1);
+        return last;
+    }
 
-        public void Append(T item)
-        {
-            _items.Add(item);
-        }
+    public IEnumerator<T> GetEnumerator()
+    {
+        return _items.GetEnumerator();
+    }
 
-        public T Pop()
-        {
-            var last = _items[^1];
-            _items.RemoveAt(_items.Count - 1);
-            return last;
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _items.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

@@ -1,15 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using Generator;
-using Generator.Generators;
-using Scriban;
-using Scriban.Runtime;
-using Spectre.IO;
 using ScribanTemplate = Scriban.Template;
 
-namespace Wcwidth.Generator.Generators;
+namespace Wcwidth.Generator;
 
 public static class TableRenderer
 {

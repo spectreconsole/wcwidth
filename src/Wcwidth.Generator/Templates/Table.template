@@ -9,30 +9,29 @@
 
 using System;
 
-namespace Wcwidth
+namespace Wcwidth;
+
+internal static partial class {{ name }}
 {
-    internal static partial class {{ name }}
+    private static uint[,] GenerateTable(Unicode version)
     {
-        private static uint[,] GenerateTable(Unicode version)
+        return version switch
         {
-            return version switch
-            {
-                {{- for item in data }}
-                Unicode.Version_{{ item.version | string_ver }} => Unicode_{{ item.version | string_ver }}(),
-                {{- end }}
-                _ => throw new InvalidOperationException("Unknown Unicode version"),
-            };
-        }
-        {{~ for item in data }}
-        private static uint[,] Unicode_{{ item.version | string.replace "." "_" }}()
-        {
-            return new uint[,]
-            {
-                {{~ for range in item.ranges ~}}
-                {%{{}%} {{ range | range_start | hex_pad 6 }}, {{ range | range_end | hex_pad 6 }} {%{}}%},
-                {{~ end ~}}
-            };
-        }
-        {{~ end ~}}
+            {{- for item in data }}
+            Unicode.Version_{{ item.version | string_ver }} => Unicode_{{ item.version | string_ver }}(),
+            {{- end }}
+            _ => throw new InvalidOperationException("Unknown Unicode version"),
+        };
     }
+    {{~ for item in data }}
+    private static uint[,] Unicode_{{ item.version | string.replace "." "_" }}()
+    {
+        return new uint[,]
+        {
+            {{~ for range in item.ranges ~}}
+            {%{{}%} {{ range | range_start | hex_pad 6 }}, {{ range | range_end | hex_pad 6 }} {%{}}%},
+            {{~ end ~}}
+        };
+    }
+    {{~ end ~}}
 }

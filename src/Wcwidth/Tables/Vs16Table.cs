@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Wcwidth;
 
 internal static partial class Vs16Table

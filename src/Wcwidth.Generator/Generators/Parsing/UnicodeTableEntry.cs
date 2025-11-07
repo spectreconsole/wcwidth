@@ -1,4 +1,4 @@
-namespace Generator;
+namespace Wcwidth.Generator;
 
 public sealed class UnicodeTableEntry
 {

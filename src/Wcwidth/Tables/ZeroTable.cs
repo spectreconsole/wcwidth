@@ -4,8 +4,6 @@
 #pragma warning disable
 #endif
 
-using System.Collections.Generic;
-
 namespace Wcwidth
 {
     internal static partial class ZeroTable

@@ -6,7 +6,24 @@ var configuration = Argument("configuration", "Release");
 ////////////////////////////////////////////////////////////////
 // Tasks
 
+Task("Clean")
+    .Does(context =>
+{
+    CleanDirectory("./.artifacts");
+});
+
+Task("Lint")
+    .Does(context =>
+{
+    DotNetFormatStyle("./src/Wcwidth.slnx", new DotNetFormatSettings
+    {
+        VerifyNoChanges = true,
+    });
+});
+
 Task("Build")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Lint")
     .Does(context => 
 {
     DotNetBuild("./src/Wcwidth.slnx", new DotNetBuildSettings {
@@ -16,6 +33,7 @@ Task("Build")
             .TreatAllWarningsAs(MSBuildTreatAllWarningsAs.Error)
     });
 });
+
 
 Task("Test")
     .IsDependentOn("Build")
@@ -32,8 +50,6 @@ Task("Package")
     .IsDependentOn("Test")
     .Does(context => 
 {
-    context.CleanDirectory("./.artifacts");
-
     context.DotNetPack($"./src/Wcwidth.slnx", new DotNetPackSettings {
         Configuration = configuration,
         NoRestore = true,

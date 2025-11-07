@@ -1,6 +1,3 @@
-using Shouldly;
-using Xunit;
-
 namespace Wcwidth.Tests;
 
 public sealed partial class WcwidthTests

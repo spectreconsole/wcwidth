@@ -5,7 +5,9 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
     <MinVerDefaultPreReleaseIdentifiers>preview.0</MinVerDefaultPreReleaseIdentifiers>
+    <MinVerMinimumMajorMinor>4.0</MinVerMinimumMajorMinor>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Label="Deterministic Build" Condition="'$(GITHUB_ACTIONS)' == 'true'">
@@ -30,7 +32,6 @@
   <ItemGroup Label="Package References">
     <PackageReference Include="MinVer" PrivateAssets="All"/>
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
-    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All"/>
     <PackageReference Include="Roslynator.Analyzers" PrivateAssets="All"/>
   </ItemGroup>
 </Project>
