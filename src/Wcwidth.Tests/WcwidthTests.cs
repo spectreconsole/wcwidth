@@ -1,5 +1,8 @@
 namespace Wcwidth.Tests;
 
+/// <summary>
+/// Test suite from https://github.com/jquast/wcwidth/blob/master/tests/test_core.py
+/// </summary>
 public sealed partial class WcwidthTests
 {
     [Fact]
@@ -26,6 +29,14 @@ public sealed partial class WcwidthTests
         width.ShouldBe(10);
     }
 
+    /// <summary>
+    /// <para>Width of Japanese phrase: コンニチハ, セカイ.</para>
+    /// <para>
+    /// Given a phrase of 5 and 3 Katakana ideographs, joined with
+    /// 3 English-ASCII punctuation characters, totaling 11, this
+    /// phrase consumes 19 cells of a terminal emulator.
+    /// </para>
+    /// </summary>
     [Fact]
     public void Japanese_Hello()
     {
@@ -38,6 +49,9 @@ public sealed partial class WcwidthTests
         width.ShouldBe(19);
     }
 
+    /// <summary>
+    /// NULL (0) reports width 0.
+    /// </summary>
     [Fact]
     public void Null_Width()
     {
@@ -50,6 +64,18 @@ public sealed partial class WcwidthTests
         width.ShouldBe(6);
     }
 
+    /// <summary>
+    /// <para>How the API reacts to CSI (Control sequence initiate).</para>
+    /// <para>
+    /// An example of bad fortune, this terminal sequence is a width of 0
+    /// on all terminals, but wcwidth doesn't parse Control-Sequence-Inducer
+    /// (CSI) sequences.
+    /// </para>
+    /// <para>
+    /// Also the "legacy" posix functions wcwidth and wcswidth return -1 for
+    /// any string containing the C1 control character \x1b (ESC).
+    /// </para>
+    /// </summary>
     [Fact]
     public void C0_Width_Negative_1()
     {
@@ -62,6 +88,9 @@ public sealed partial class WcwidthTests
         width.ShouldBe(-1);
     }
 
+    /// <summary>
+    /// Simple test combining reports total width of 4.
+    /// </summary>
     [Fact]
     public void Combining_Width()
     {
@@ -74,6 +103,9 @@ public sealed partial class WcwidthTests
         width.ShouldBe(4);
     }
 
+    /// <summary>
+    /// Phrase cafe + COMBINING ACUTE ACCENT is café of length 4.
+    /// </summary>
     [Fact]
     public void Combining_Cafe()
     {
@@ -208,7 +240,7 @@ public sealed partial class WcwidthTests
 
         // Then
         seq.ShouldBe([1, 0, 1, 0]); // 23107-terminal-suppt.pdf suggests wcwidth.wcwidth should return (2, 0, 0, 1)
-        width.ShouldBe(2); // I believe the final width *should* be 3.
+        width.ShouldBe(2);          // I believe the final width *should* be 3.
     }
 
     [Fact]
@@ -227,7 +259,7 @@ public sealed partial class WcwidthTests
 
         // Then
         seq.ShouldBe([1, 0, 1, 0]); // 23107-terminal-suppt.pdf suggests wcwidth.wcwidth should return (3, 0, 0, 4)
-        width.ShouldBe(2); // I believe the final width should be about 5 or 6.
+        width.ShouldBe(2);          // I believe the final width should be about 5 or 6.
     }
 
     [Fact]
@@ -246,7 +278,7 @@ public sealed partial class WcwidthTests
 
         // Then
         seq.ShouldBe([1, 0, 1, 0]); // 23107-terminal-suppt.pdf suggests should be (2, 0, 3, 1)
-        width.ShouldBe(2); // I believe the correct final width *should* be 3 or 4.
+        width.ShouldBe(2);          // I believe the correct final width *should* be 3 or 4.
     }
 
     [Fact]
@@ -265,7 +297,7 @@ public sealed partial class WcwidthTests
 
         // Then
         seq.ShouldBe([1, 0, 0, 1]); // 23107-terminal-suppt.pdf suggests wcwidth.wcwidth should return (2, 0, 0, 1)
-        width.ShouldBe(2); // I believe the final width is correct, but maybe for the wrong reasons!
+        width.ShouldBe(2);          // I believe the final width is correct, but maybe for the wrong reasons!
     }
 
     /// <summary>
@@ -295,22 +327,5 @@ public sealed partial class WcwidthTests
     public void Soft_Hyphen()
     {
         UnicodeCalculator.GetWidth(0x000ad).ShouldBe(1);
-    }
-}
-
-public static class UnicodeFixture
-{
-    public static (int[] Seq, int Width) Calculate(string phrase, Unicode? version = null)
-    {
-        var seq = phrase.Select(c => UnicodeCalculator.GetWidth(c, version)).ToArray();
-        var width = UnicodeCalculator.GetWidth(phrase, version);
-        return (seq, width);
-    }
-
-    public static (int[] Each, int Phrase) Calculate(string[] phrase, Unicode? version = null)
-    {
-        var foo = phrase.Select(c => UnicodeCalculator.GetWidth(c, version)).ToArray();
-        var bar = UnicodeCalculator.GetWidth(string.Concat(phrase), version);
-        return (foo, bar);
     }
 }

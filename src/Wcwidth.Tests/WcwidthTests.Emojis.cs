@@ -1,5 +1,8 @@
 namespace Wcwidth.Tests;
 
+/// <summary>
+/// Test suite from https://github.com/jquast/wcwidth/blob/master/tests/test_emojis.py
+/// </summary>
 public sealed partial class WcwidthTests
 {
     public sealed class Emojis
