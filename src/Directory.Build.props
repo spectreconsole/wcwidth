@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup Label="Settings">
     <Deterministic>true</Deterministic>
-    <LangVersion>14.0</LangVersion>
+    <LangVersion>15.0</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
     <MinVerDefaultPreReleaseIdentifiers>preview.0</MinVerDefaultPreReleaseIdentifiers>
