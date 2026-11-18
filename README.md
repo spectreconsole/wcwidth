@@ -18,7 +18,23 @@ var width = UnicodeCalculator.GetWidth('コ');
 
 // It should be 2 cells wide
 Debug.Assert(width == 2);
+
+// Strings and spans are measured per Unicode scalar,
+// including emoji sequences, and return -1 if they
+// contain a control character
+Debug.Assert(UnicodeCalculator.GetWidth("コンニチハ") == 10);
+Debug.Assert(UnicodeCalculator.GetWidth("👨‍👩‍👧".AsSpan()) == 2);
 ```
+
+### Source package
+
+The `Wcwidth.Sources` package compiles the source code into your project.
+These compilation symbols change what it compiles:
+
+* `WCWIDTH_VISIBILITY_INTERNAL` makes the types `internal` instead of `public`.
+* `WCWIDTH_SYSTEM_MEMORY` adds `GetWidth(ReadOnlySpan<char>)` on targets
+  without a built-in `ReadOnlySpan<T>`, such as .NET Standard 2.0. Define it
+  when your project references the `System.Memory` package.
 
 ## Building
 

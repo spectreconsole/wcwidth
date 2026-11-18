@@ -13,6 +13,7 @@
   </Folder>
   <Project Path="Wcwidth.Generator/Wcwidth.Generator.csproj" />
   <Project Path="Wcwidth.Sources/Wcwidth.Sources.csproj" />
+  <Project Path="Wcwidth.Tests.NetStandard/Wcwidth.Tests.NetStandard.csproj" />
   <Project Path="Wcwidth.Tests/Wcwidth.Tests.csproj" />
   <Project Path="Wcwidth/Wcwidth.csproj" />
 </Solution>
