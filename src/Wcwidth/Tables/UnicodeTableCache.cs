@@ -26,7 +26,7 @@ internal sealed class UnicodeTableCache
         _generate = generate;
 
         // The versions are numbered from 0 without gaps
-        _tables = new int[,]?[Enum.GetValues(typeof(Unicode)).Length];
+        _tables = new int[,]?[Enum.GetNames(typeof(Unicode)).Length];
     }
 
     public int[,] Get(Unicode version)
