@@ -52,6 +52,8 @@
 #define WCWIDTH_SPAN
 #endif
 
+using System;
+using System.Collections.Generic;
 #if NET6_0_OR_GREATER
 using System.Text;
 #endif

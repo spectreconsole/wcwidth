@@ -1,3 +1,11 @@
+#if WCWIDTH
+#pragma warning restore
+#else
+#pragma warning disable
+#endif
+
+using System;
+
 namespace Wcwidth;
 
 internal static class IntegerExtensions

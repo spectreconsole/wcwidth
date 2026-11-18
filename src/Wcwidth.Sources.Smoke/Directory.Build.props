@@ -1,0 +1,11 @@
+<Project>
+  <!--
+    Builds like a project outside this repository: this file stops the import of
+    src/Directory.Build.props, and the build output goes to .artifacts, which the
+    build script cleans before each run.
+  -->
+  <PropertyGroup>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)../../.artifacts/smoke/bin/</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)../../.artifacts/smoke/obj/</BaseIntermediateOutputPath>
+  </PropertyGroup>
+</Project>

@@ -61,9 +61,44 @@ Task("Package")
     });
 });
 
+Task("Smoke-Test")
+    .IsDependentOn("Package")
+    .Does(context =>
+{
+    // Compiles the packed Wcwidth.Sources package in the setups of consuming projects
+    var package = context.GetFiles("./.artifacts/Wcwidth.Sources.*.nupkg").Single();
+    var version = package.GetFilenameWithoutExtension().FullPath["Wcwidth.Sources.".Length..];
+
+    var setups = new (string Name, (string Key, string Value)[] Properties)[]
+    {
+        ("public, nullable enabled, latest C#", []),
+        ("internal, nullable disabled, System.Memory on netstandard2.0",
+            [("WcwidthInternal", "true"), ("Nullable", "disable"), ("WcwidthSystemMemory", "true")]),
+        ("internal, nullable enabled, C# 12", [("WcwidthInternal", "true"), ("LangVersion", "12")]),
+    };
+
+    foreach (var (name, properties) in setups)
+    {
+        context.Information("Smoke testing Wcwidth.Sources {0}: {1}", version, name);
+
+        var settings = new DotNetMSBuildSettings().WithProperty("WcwidthSourcesVersion", version);
+        foreach (var (key, value) in properties)
+        {
+            settings.WithProperty(key, value);
+        }
+
+        DotNetBuild("./src/Wcwidth.Sources.Smoke/Wcwidth.Sources.Smoke.csproj", new DotNetBuildSettings
+        {
+            Configuration = configuration,
+            NoIncremental = true,
+            MSBuildSettings = settings,
+        });
+    }
+});
+
 Task("Publish-NuGet")
     .WithCriteria(ctx => BuildSystem.IsRunningOnGitHubActions, "Not running on GitHub Actions")
-    .IsDependentOn("Package")
+    .IsDependentOn("Smoke-Test")
     .Does(context => 
 {
     var apiKey = Argument<string?>("nuget-key", null);
@@ -90,7 +125,7 @@ Task("Publish")
     .IsDependentOn("Publish-NuGet");
 
 Task("Default")
-    .IsDependentOn("Package");
+    .IsDependentOn("Smoke-Test");
 
 ////////////////////////////////////////////////////////////////
 // Execution

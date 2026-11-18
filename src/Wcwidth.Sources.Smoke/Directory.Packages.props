@@ -1,0 +1,3 @@
+<Project>
+  <!-- Stops the import of src/Directory.Packages.props: this project sets its own versions -->
+</Project>

@@ -4,6 +4,8 @@
     <TargetFrameworks>net11.0;net10.0;netstandard2.0</TargetFrameworks>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <!-- Wcwidth.Sources compiles this source in projects that may not import any namespace -->
+    <ImplicitUsings>false</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">

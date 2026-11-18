@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Compiles the packed Wcwidth.Sources package the way a consuming project does:
+    no implicit usings, the source's warnings turned on (WCWIDTH), warnings as errors.
+    build.cs builds it once for each consumer setup, with these properties:
+      WcwidthSourcesVersion  The version of the package in .artifacts
+      WcwidthInternal        true to define WCWIDTH_VISIBILITY_INTERNAL
+      WcwidthSystemMemory    true to reference System.Memory and define WCWIDTH_SYSTEM_MEMORY on netstandard2.0
+      Nullable, LangVersion  As in any project
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net11.0;net10.0;netstandard2.0</TargetFrameworks>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <IsPackable>false</IsPackable>
+    <DefineConstants>$(DefineConstants);WCWIDTH</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(WcwidthInternal)' == 'true'">
+    <DefineConstants>$(DefineConstants);WCWIDTH_VISIBILITY_INTERNAL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(WcwidthSystemMemory)' == 'true' And '$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>$(DefineConstants);WCWIDTH_SYSTEM_MEMORY</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Wcwidth.Sources" Version="$(WcwidthSourcesVersion)" PrivateAssets="all" />
+    <PackageReference Include="System.Memory" Version="4.6.3" Condition="'$(WcwidthSystemMemory)' == 'true' And '$(TargetFramework)' == 'netstandard2.0'" />
+  </ItemGroup>
+
+</Project>

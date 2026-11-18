@@ -29,6 +29,8 @@ Debug.Assert(UnicodeCalculator.GetWidth("👨‍👩‍👧".AsSpan()) == 2);
 ### Source package
 
 The `Wcwidth.Sources` package compiles the source code into your project.
+It needs C# 12 or later: set `LangVersion` in projects that target
+.NET Standard 2.0 or .NET Framework, where the default is C# 7.3.
 These compilation symbols change what it compiles:
 
 * `WCWIDTH_VISIBILITY_INTERNAL` makes the types `internal` instead of `public`.

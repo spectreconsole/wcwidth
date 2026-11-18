@@ -4,6 +4,11 @@
 #pragma warning disable
 #endif
 
+#nullable enable
+
+using System;
+using System.Threading;
+
 namespace Wcwidth;
 
 /// <summary>
