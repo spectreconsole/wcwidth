@@ -6,14 +6,12 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <!-- Wcwidth.Sources compiles this source in projects that may not import any namespace -->
     <ImplicitUsings>false</ImplicitUsings>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DefineConstants>$(DefineConstants)TRACE;WCWIDTH</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-    <DefineConstants>$(DefineConstants)TRACE;WCWIDTH</DefineConstants>
+  <PropertyGroup>
+    <!-- Turns on the warnings of the source, which consumers of Wcwidth.Sources only get when they define it -->
+    <DefineConstants>$(DefineConstants);WCWIDTH</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
